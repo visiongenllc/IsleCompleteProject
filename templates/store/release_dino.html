@@ -1,0 +1,22 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Release Dinosaur</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+  <div class="container py-5">
+    <h2 class="mb-4">Release Dinosaur</h2>
+    <p>Are you sure you want to release <strong>{{ slot.active_dino.name }}</strong> from slot {{ slot.server_name }}?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Release</button>
+      <a href="{% url 'store:main_page' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>

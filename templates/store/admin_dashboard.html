@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisionGEN — Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(180deg, #0a1a2a 0%, #121e30 100%);
+      color: #e6f3fb;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+    .navbar {
+      background: rgba(15, 25, 45, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .navbar-brand { color: #3aa3ff; font-weight: 700; }
+    .card {
+      background: rgba(20, 30, 45, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s;
+    }
+    .card:hover { transform: translateY(-5px); }
+    .table thead { background-color: rgba(255,255,255,0.05); }
+    .btn-add { background: linear-gradient(90deg, #3aa3ff, #1e7de8); border: none; color: #fff; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="#">VisionGEN Admin</a>
+    <a href="{% url 'store:logout' %}" class="btn btn-outline-light btn-sm">Logout</a>
+  </div>
+</nav>
+
+<div class="container py-5">
+
+  <!-- Dashboard Summary -->
+  <div class="row mb-5 text-center">
+    <div class="col-md-4"><div class="card p-4"><h5>🦖 Dinosaurs</h5><h3>{{ dino_count }}</h3></div></div>
+    <div class="col-md-4"><div class="card p-4"><h5>💰 Packages</h5><h3>{{ package_count }}</h3></div></div>
+    <div class="col-md-4"><div class="card p-4"><h5>👤 Players</h5><h3>{{ player_count }}</h3></div></div>
+  </div>
+
+  <!-- Manage Dinosaurs -->
+  <h4 class="mb-3">🦕 Manage Dinosaurs
+    <a href="{% url 'store:add_dino_admin' %}" class="btn btn-sm btn-add float-end">+ Add</a>
+  </h4>
+  <table class="table table-dark table-hover align-middle">
+    <thead>
+      <tr><th>Name</th><th>Cost</th><th>Image</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for dino in dinos %}
+      <tr>
+        <td>{{ dino.name }}</td>
+        <td>{{ dino.coin_cost }} coins</td>
+        <td>{% if dino.image %}<img src="{{ dino.image.url }}" width="60">{% endif %}</td>
+        <td>
+          <a href="{% url 'store:edit_dino_admin' dino.id %}" class="btn btn-outline-info btn-sm">Edit</a>
+          <a href="{% url 'store:delete_dino_admin' dino.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" class="text-center">No dinosaurs found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Manage Coin Packages -->
+  <h4 class="mt-5 mb-3">💵 Manage Coin Packages
+    <a href="{% url 'store:add_package_admin' %}" class="btn btn-sm btn-add float-end">+ Add</a>
+  </h4>
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr><th>Name</th><th>Coins</th><th>Price (USD)</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for pack in packages %}
+      <tr>
+        <td>{{ pack.name }}</td>
+        <td>{{ pack.coins_amount }}</td>
+        <td>${{ pack.price_usd }}</td>
+        <td>
+          <a href="{% url 'store:edit_package_admin' pack.id %}" class="btn btn-outline-info btn-sm">Edit</a>
+          <a href="{% url 'store:delete_package_admin' pack.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" class="text-center">No packages found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Player List -->
+  <h4 class="mt-5 mb-3">👥 Player List</h4>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr><th>Username</th><th>Steam ID</th><th>Coins</th></tr>
+    </thead>
+    <tbody>
+      {% for player in players %}
+      <tr>
+        <td>{{ player.user.username }}</td>
+        <td>{{ player.steam_id }}</td>
+        <td>{{ player.coins }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3" class="text-center">No players found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

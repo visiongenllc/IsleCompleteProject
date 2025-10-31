@@ -1,0 +1,18 @@
+<!-- templates/dashboard.html -->
+<h3>🪙 Your Coins: {{ user.playercoinbalance.coins }}</h3>
+
+<h4>Available Dinos</h4>
+<div class="row">
+  {% for dino in dinos %}
+    <div class="col-md-3">
+      <div class="card bg-dark text-light p-2 mb-3">
+        <img src="{{ dino.image.url }}" alt="{{ dino.name }}" class="card-img-top">
+        <div class="card-body">
+          <h5>{{ dino.name }}</h5>
+          <p>Cost: {{ dino.coin_cost }} coins</p>
+          <button class="btn btn-primary">Buy / Grow</button>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

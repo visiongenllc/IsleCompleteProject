@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #0a1a2a; color: #fff; }
+    .form-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container form-container">
+    <h3 class="mb-4">{{ title }}</h3>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary mt-3">Save</button>
+      <a href="{% url 'store:admin-dashboard' %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>
